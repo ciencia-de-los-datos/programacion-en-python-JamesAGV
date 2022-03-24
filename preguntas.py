@@ -8,7 +8,7 @@ No puede utilizar pandas, numpy o scipy. Se debe utilizar solo las funciones de 
 básicas.
 
 Utilice el archivo `data.csv` para resolver las preguntas.
-Esta línea es de prueba (commit). Se debe borrar, pero no eliminar el salto de línea
+
 
 """
 
