@@ -11,6 +11,7 @@ Utilice el archivo `data.csv` para resolver las preguntas.
 
 
 """
+
 archivo=open('data.csv', mode='r').readlines()
 archivo=[i.replace('\n', '') for i in archivo]
 archivo=[i.split('\t') for i in archivo]
