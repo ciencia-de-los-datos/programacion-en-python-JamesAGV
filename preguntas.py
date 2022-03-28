@@ -11,7 +11,12 @@ Utilice el archivo `data.csv` para resolver las preguntas.
 
 
 """
+archivo=open('data.csv', mode='r').readlines()
+archivo=[i.replace('\n', '') for i in archivo]
+archivo=[i.split('\t') for i in archivo]
 
+def get_list_c_1(file): #Retorna una lista con enteros correspondientes a la segunda columna (1) del archivo
+    return list(map(lambda x: int(x[1]), file))
 
 def pregunta_01():
     """
@@ -21,7 +26,8 @@ def pregunta_01():
     214
 
     """
-    return
+    lista_c_1=get_list_c_1(archivo)
+    return sum(lista_c_1)
 
 
 def pregunta_02():
