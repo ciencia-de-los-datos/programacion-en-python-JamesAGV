@@ -138,7 +138,9 @@ def pregunta_05():
     ]
 
     """
-    return
+    valuesList=get_list_values_c_2_by_letter()
+    ordenedLetters=get_list_ordened_letters_set()
+    return [(ordenedLetters[i], max(valuesList[i]), min(valuesList[i])) for i in range(len(ordenedLetters))]
 
 
 def pregunta_06():
