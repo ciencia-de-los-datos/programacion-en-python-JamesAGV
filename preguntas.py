@@ -32,6 +32,12 @@ def get_list_ordened_letters_set(): #Retorna una lista que sus elementos son la 
     letras_ordenadas.sort() #Se ordena la lista alfabéticamente
     return letras_ordenadas
 
+def get_list_filtered_registers_by_letter(file): #Retorna una lista de listas de registros agrupados por letras
+    return [list(filter(lambda x: x[0]==i, file)) for i in get_list_ordened_letters_set()]
+
+def get_list_values_c_2_by_letter(): #Retorna una lista de lista de valores dde la columna 2 (1) para cada letra
+    return [list(map(lambda x: int(x[1]), i)) for i in get_list_filtered_registers_by_letter(archivo)]
+
 '''Hasta aquí van las funciones adicionales'''
 
 def pregunta_01():
@@ -79,7 +85,9 @@ def pregunta_03():
     ]
 
     """
-    return
+    lista_suma= list(map(lambda x: sum(x), get_list_values_c_2_by_letter()))
+    letras_ordenadas=get_list_ordened_letters_set()
+    return [(letras_ordenadas[i], lista_suma[i]) for i in range(len(letras_ordenadas))]
 
 
 def pregunta_04():
