@@ -16,8 +16,23 @@ archivo=open('data.csv', mode='r').readlines()
 archivo=[i.replace('\n', '') for i in archivo]
 archivo=[i.split('\t') for i in archivo]
 
+
+'''A continuación, funciones definidas para la resolución de las preguntas'''
+
 def get_list_c_1(file): #Retorna una lista con enteros correspondientes a la segunda columna (1) del archivo
     return list(map(lambda x: int(x[1]), file))
+
+def get_list_c_0(file): #Retorna una lista con letras correspondientes a la primera columna (0) del archivo
+    return [i[0] for i in file]
+
+def get_list_ordened_letters_set(): #Retorna una lista que sus elementos son la letras (únicas), ordenadas alfabéticamente
+    letras=get_list_c_0(archivo) #Lista con la letra de cada registro
+    letras_conjunto=set(letras) #Se obtiene un conjunto de las letras (letras únicas)
+    letras_ordenadas=list(letras_conjunto) #Se obtiene una lista a partir del conjunto
+    letras_ordenadas.sort() #Se ordena la lista alfabéticamente
+    return letras_ordenadas
+
+'''Hasta aquí van las funciones adicionales'''
 
 def pregunta_01():
     """
@@ -46,7 +61,7 @@ def pregunta_02():
     ]
 
     """
-    return
+    return  [(i, get_list_c_0(archivo).count(i)) for i in get_list_ordened_letters_set(archivo)]
 
 
 def pregunta_03():
