@@ -38,6 +38,10 @@ def get_list_filtered_registers_by_letter(file): #Retorna una lista de listas de
 def get_list_values_c_2_by_letter(): #Retorna una lista de lista de valores dde la columna 2 (1) para cada letra
     return [list(map(lambda x: int(x[1]), i)) for i in get_list_filtered_registers_by_letter(archivo)]
 
+def get_list_dates(): #Retorna una lista de lista con las fechas (columna 3 (2)) de cada registro [[año,mes,día]...]
+    return [i[2].split('-') for i in archivo]
+
+
 '''Hasta aquí van las funciones adicionales'''
 
 def pregunta_01():
@@ -112,7 +116,11 @@ def pregunta_04():
     ]
 
     """
-    return
+    months=[i[1] for i in get_list_dates()]
+    months.sort()
+    monthSet=list(set(months))
+    monthSet.sort()
+    return [(i, months.count(i)) for i in monthSet]
 
 
 def pregunta_05():
