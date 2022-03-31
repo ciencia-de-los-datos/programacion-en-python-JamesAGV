@@ -61,7 +61,7 @@ def pregunta_02():
     ]
 
     """
-    return  [(i, get_list_c_0(archivo).count(i)) for i in get_list_ordened_letters_set(archivo)]
+    return  [(i, get_list_c_0(archivo).count(i)) for i in get_list_ordened_letters_set()]
 
 
 def pregunta_03():
@@ -280,3 +280,6 @@ def pregunta_12():
 
     """
     return
+
+print(pregunta_02())
+
