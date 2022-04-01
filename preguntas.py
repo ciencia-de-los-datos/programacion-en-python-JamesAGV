@@ -41,6 +41,28 @@ def get_list_values_c_2_by_letter(): #Retorna una lista de lista de valores dde 
 def get_list_dates(): #Retorna una lista de lista con las fechas (columna 3 (2)) de cada registro [[año,mes,día]...]
     return [i[2].split('-') for i in archivo]
 
+def get_list_c_4(): #retorna una lista con los elementos correspondientes a la columna 5 (4)
+    return list(map(lambda x: x[4], archivo))
+
+def get_list_keyValue_by_register(): #Retorna una lista de listas de claves y valor por registro [['jjj:12', 'bbb:3', 'ddd:9', 'ggg:8', 'hhh:2'],...]
+    return [i.split(',') for i in get_list_c_4()]
+
+def get_list_keyValue(): #Retorna una lista de listas con cada clave y valor [['jjj,'12'],['bbb,'3'],...]
+    lista=[j for i in get_list_keyValue_by_register() for j in i] #['jjj:12','bbb:3','ddd:9','ggg:8','hhh:2',...]
+    return [i.split(':') for i in lista] #[['jjj', '12'],['bbb', '3'],['ddd', '9'],...]
+
+def get_list_ordened_keys_set(): #Retorna ['aaa', 'bbb', 'ccc', 'ddd', 'eee', 'fff', 'ggg', 'hhh', 'iii', 'jjj']
+    keys=list(set(list(map(lambda x: x[0], get_list_keyValue()))))
+    keys.sort()
+    return keys
+
+def get_list_filtered_keyValue_by_key(): #Retorna lsita de listas filtradas por clave
+    return [list(filter(lambda x: x[0]==i, get_list_keyValue())) for i in get_list_ordened_keys_set()]
+
+def get_list_values_by_key(): #Retorna una lista de listas de los valores por clave
+    return [list(map(lambda x: int(x[1]), i)) for i in get_list_filtered_keyValue_by_key()]
+
+
 
 '''Hasta aquí van las funciones adicionales'''
 
@@ -165,7 +187,8 @@ def pregunta_06():
     ]
 
     """
-    return
+    len_keys_set=len(get_list_ordened_keys_set())
+    return [(get_list_ordened_keys_set()[i], min(get_list_values_by_key()[i]), max(get_list_values_by_key()[i])) for i in range(len(len_keys_set))]
 
 
 def pregunta_07():
