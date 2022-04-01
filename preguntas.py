@@ -271,7 +271,8 @@ def pregunta_09():
     }
 
     """
-    return
+    campoClave=[i[0] for i in get_list_keyValue()]
+    return {i:campoClave.count(i) for i in get_list_ordened_keys_set()}
 
 
 def pregunta_10():
@@ -333,5 +334,5 @@ def pregunta_12():
     """
     return
 
-print(pregunta_08())
+print(pregunta_09())
 
