@@ -62,7 +62,17 @@ def get_list_filtered_keyValue_by_key(): #Retorna lsita de listas filtradas por 
 def get_list_values_by_key(): #Retorna una lista de listas de los valores por clave
     return [list(map(lambda x: int(x[1]), i)) for i in get_list_filtered_keyValue_by_key()]
 
+def get_list_ordened_c1_set(): #Retorna [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] proveniente de valores únics de c1
+    lista=[int(i[1]) for i in archivo]
+    lista=list(set(lista))
+    lista.sort()
+    return lista
 
+def get_list_filtered_by_c1_values(): #Retorna una lista de listas de registros filtrador por valores de la columna 2 (1)-c1
+    return [list(filter(lambda x: int(x[1])==i, archivo)) for i in get_list_ordened_c1_set()]
+
+def get_list_letters_by_c1_vallues(): #Retorna una lista de lista de letras por cada valor de la columna 1 (c1)
+    return [list(map(lambda x: x[0], i)) for i in get_list_filtered_by_c1_values()]
 
 '''Hasta aquí van las funciones adicionales'''
 
@@ -211,7 +221,7 @@ def pregunta_07():
     ]
 
     """
-    return
+    return [(get_list_ordened_c1_set()[i], get_list_letters_by_c1_vallues()[i]) for i in range(len(get_list_ordened_c1_set()))]
 
 
 def pregunta_08():
@@ -321,5 +331,5 @@ def pregunta_12():
     """
     return
 
-print(pregunta_06())
+print(pregunta_07())
 
