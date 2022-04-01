@@ -293,7 +293,7 @@ def pregunta_10():
 
 
     """
-    return
+    return [(i[0], len(i[3].split(',')), len(i[4].split(','))) for i in archivo]
 
 
 def pregunta_11():
@@ -334,5 +334,5 @@ def pregunta_12():
     """
     return
 
-print(pregunta_09())
+print(pregunta_10())
 
