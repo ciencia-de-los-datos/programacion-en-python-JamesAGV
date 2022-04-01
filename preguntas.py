@@ -187,8 +187,7 @@ def pregunta_06():
     ]
 
     """
-    len_keys_set=len(get_list_ordened_keys_set())
-    return [(get_list_ordened_keys_set()[i], min(get_list_values_by_key()[i]), max(get_list_values_by_key()[i])) for i in range(len(len_keys_set))]
+    return [(get_list_ordened_keys_set()[i], min(get_list_values_by_key()[i]), max(get_list_values_by_key()[i])) for i in range(len(get_list_ordened_keys_set()))]
 
 
 def pregunta_07():
@@ -322,5 +321,5 @@ def pregunta_12():
     """
     return
 
-print(pregunta_02())
+print(pregunta_06())
 
