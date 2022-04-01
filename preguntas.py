@@ -246,7 +246,9 @@ def pregunta_08():
     ]
 
     """
-    return
+    listaSetLetras=[list(set(map(lambda x: x[0], i))) for i in get_list_filtered_by_c1_values()]
+    [list(map(lambda x: x.sort(),listaSetLetras))]
+    return [(get_list_ordened_c1_set()[i], listaSetLetras[i]) for i in range(len(get_list_ordened_c1_set()))]
 
 
 def pregunta_09():
@@ -331,5 +333,5 @@ def pregunta_12():
     """
     return
 
-print(pregunta_07())
+print(pregunta_08())
 
