@@ -89,6 +89,8 @@ def get_list_filtered_by_letter_c_3(): #Retorna una lista de lista con registros
 def get_list_c1_by_letter_c3(): #Retorna una lista de lista de números de la columna c1 agrupados por cada letra de la columna c3
     return [list(map(lambda x: int(x[1]), i)) for i in get_list_filtered_by_letter_c_3()]
 
+def get_list_c4_vales_by_letter(): #Retorna una lista de listas con los valores de la columna c4 de cada letra (c0)
+    return [[int(z.split(':')[1]) for y in get_list_filtered_registers_by_letter(archivo)[i] for z in y[4].split(',') ] for i in range(len(get_list_ordened_letters_set()))]
 
 
 '''Hasta aquí van las funciones adicionales'''
@@ -349,7 +351,6 @@ def pregunta_12():
     }
 
     """
-    return
+    return {get_list_ordened_letters_set()[i]: sum(get_list_c4_vales_by_letter()[i]) for i in range(len(get_list_ordened_letters_set()))}
 
-print(pregunta_11())
 
