@@ -74,6 +74,23 @@ def get_list_filtered_by_c1_values(): #Retorna una lista de listas de registros 
 def get_list_letters_by_c1_vallues(): #Retorna una lista de lista de letras por cada valor de la columna 1 (c1)
     return [list(map(lambda x: x[0], i)) for i in get_list_filtered_by_c1_values()]
 
+def get_list_letters_c_3_set(): #Retorna una lista que contiene las letras de la columna c3 
+    letras_c_3=[]
+    for x in archivo:
+        for y in x[3].split(','):
+            letras_c_3.append(y)
+    c_3_unicas=list(set(letras_c_3))
+    c_3_unicas.sort()
+    return c_3_unicas
+
+def get_list_filtered_by_letter_c_3(): #Retorna una lista de lista con registros filtrados por letras de la columna c3
+    return [list(filter(lambda x: i in x[3], archivo)) for i in get_list_letters_c_3_set()]
+
+def get_list_c1_by_letter_c3(): #Retorna una lista de lista de números de la columna c1 agrupados por cada letra de la columna c3
+    return [list(map(lambda x: int(x[1]), i)) for i in get_list_filtered_by_letter_c_3()]
+
+
+
 '''Hasta aquí van las funciones adicionales'''
 
 def pregunta_01():
@@ -314,7 +331,7 @@ def pregunta_11():
 
 
     """
-    return
+    return {get_list_letters_c_3_set()[i]: sum(get_list_c1_by_letter_c3()[i]) for i in range(len(get_list_letters_c_3_set()))}
 
 
 def pregunta_12():
@@ -334,5 +351,5 @@ def pregunta_12():
     """
     return
 
-print(pregunta_10())
+print(pregunta_11())
 
