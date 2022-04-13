@@ -12,6 +12,88 @@ Utilice el archivo `data.csv` para resolver las preguntas.
 
 """
 
+archivo=open('data.csv', mode='r').readlines()
+archivo=[i.replace('\n', '') for i in archivo]
+archivo=[i.split('\t') for i in archivo]
+
+
+'''A continuación, funciones definidas para la resolución de las preguntas'''
+
+def get_list_c_1(file): #Retorna una lista con enteros correspondientes a la segunda columna (1) del archivo
+    return list(map(lambda x: int(x[1]), file))
+
+def get_list_c_0(file): #Retorna una lista con letras correspondientes a la primera columna (0) del archivo
+    return [i[0] for i in file]
+
+def get_list_ordened_letters_set(): #Retorna una lista que sus elementos son la letras (únicas), ordenadas alfabéticamente
+    letras=get_list_c_0(archivo) #Lista con la letra de cada registro
+    letras_conjunto=set(letras) #Se obtiene un conjunto de las letras (letras únicas)
+    letras_ordenadas=list(letras_conjunto) #Se obtiene una lista a partir del conjunto
+    letras_ordenadas.sort() #Se ordena la lista alfabéticamente
+    return letras_ordenadas
+
+def get_list_filtered_registers_by_letter(file): #Retorna una lista de listas de registros agrupados por letras
+    return [list(filter(lambda x: x[0]==i, file)) for i in get_list_ordened_letters_set()]
+
+def get_list_values_c_2_by_letter(): #Retorna una lista de lista de valores dde la columna 2 (1) para cada letra
+    return [list(map(lambda x: int(x[1]), i)) for i in get_list_filtered_registers_by_letter(archivo)]
+
+def get_list_dates(): #Retorna una lista de lista con las fechas (columna 3 (2)) de cada registro [[año,mes,día]...]
+    return [i[2].split('-') for i in archivo]
+
+def get_list_c_4(): #retorna una lista con los elementos correspondientes a la columna 5 (4)
+    return list(map(lambda x: x[4], archivo))
+
+def get_list_keyValue_by_register(): #Retorna una lista de listas de claves y valor por registro [['jjj:12', 'bbb:3', 'ddd:9', 'ggg:8', 'hhh:2'],...]
+    return [i.split(',') for i in get_list_c_4()]
+
+def get_list_keyValue(): #Retorna una lista de listas con cada clave y valor [['jjj,'12'],['bbb,'3'],...]
+    lista=[j for i in get_list_keyValue_by_register() for j in i] #['jjj:12','bbb:3','ddd:9','ggg:8','hhh:2',...]
+    return [i.split(':') for i in lista] #[['jjj', '12'],['bbb', '3'],['ddd', '9'],...]
+
+def get_list_ordened_keys_set(): #Retorna ['aaa', 'bbb', 'ccc', 'ddd', 'eee', 'fff', 'ggg', 'hhh', 'iii', 'jjj']
+    keys=list(set(list(map(lambda x: x[0], get_list_keyValue()))))
+    keys.sort()
+    return keys
+
+def get_list_filtered_keyValue_by_key(): #Retorna lsita de listas filtradas por clave
+    return [list(filter(lambda x: x[0]==i, get_list_keyValue())) for i in get_list_ordened_keys_set()]
+
+def get_list_values_by_key(): #Retorna una lista de listas de los valores por clave
+    return [list(map(lambda x: int(x[1]), i)) for i in get_list_filtered_keyValue_by_key()]
+
+def get_list_ordened_c1_set(): #Retorna [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] proveniente de valores únics de c1
+    lista=[int(i[1]) for i in archivo]
+    lista=list(set(lista))
+    lista.sort()
+    return lista
+
+def get_list_filtered_by_c1_values(): #Retorna una lista de listas de registros filtrador por valores de la columna 2 (1)-c1
+    return [list(filter(lambda x: int(x[1])==i, archivo)) for i in get_list_ordened_c1_set()]
+
+def get_list_letters_by_c1_vallues(): #Retorna una lista de lista de letras por cada valor de la columna 1 (c1)
+    return [list(map(lambda x: x[0], i)) for i in get_list_filtered_by_c1_values()]
+
+def get_list_letters_c_3_set(): #Retorna una lista que contiene las letras de la columna c3 
+    letras_c_3=[]
+    for x in archivo:
+        for y in x[3].split(','):
+            letras_c_3.append(y)
+    c_3_unicas=list(set(letras_c_3))
+    c_3_unicas.sort()
+    return c_3_unicas
+
+def get_list_filtered_by_letter_c_3(): #Retorna una lista de lista con registros filtrados por letras de la columna c3
+    return [list(filter(lambda x: i in x[3], archivo)) for i in get_list_letters_c_3_set()]
+
+def get_list_c1_by_letter_c3(): #Retorna una lista de lista de números de la columna c1 agrupados por cada letra de la columna c3
+    return [list(map(lambda x: int(x[1]), i)) for i in get_list_filtered_by_letter_c_3()]
+
+def get_list_c4_vales_by_letter(): #Retorna una lista de listas con los valores de la columna c4 de cada letra (c0)
+    return [[int(z.split(':')[1]) for y in get_list_filtered_registers_by_letter(archivo)[i] for z in y[4].split(',') ] for i in range(len(get_list_ordened_letters_set()))]
+
+
+'''Hasta aquí van las funciones adicionales'''
 
 def pregunta_01():
     """
@@ -21,7 +103,8 @@ def pregunta_01():
     214
 
     """
-    return
+    lista_c_1=get_list_c_1(archivo)
+    return sum(lista_c_1)
 
 
 def pregunta_02():
@@ -39,7 +122,7 @@ def pregunta_02():
     ]
 
     """
-    return
+    return  [(i, get_list_c_0(archivo).count(i)) for i in get_list_ordened_letters_set()]
 
 
 def pregunta_03():
@@ -57,7 +140,9 @@ def pregunta_03():
     ]
 
     """
-    return
+    lista_suma= list(map(lambda x: sum(x), get_list_values_c_2_by_letter()))
+    letras_ordenadas=get_list_ordened_letters_set()
+    return [(letras_ordenadas[i], lista_suma[i]) for i in range(len(letras_ordenadas))]
 
 
 def pregunta_04():
@@ -82,7 +167,11 @@ def pregunta_04():
     ]
 
     """
-    return
+    months=[i[1] for i in get_list_dates()]
+    months.sort()
+    monthSet=list(set(months))
+    monthSet.sort()
+    return [(i, months.count(i)) for i in monthSet]
 
 
 def pregunta_05():
@@ -100,7 +189,9 @@ def pregunta_05():
     ]
 
     """
-    return
+    valuesList=get_list_values_c_2_by_letter()
+    ordenedLetters=get_list_ordened_letters_set()
+    return [(ordenedLetters[i], max(valuesList[i]), min(valuesList[i])) for i in range(len(ordenedLetters))]
 
 
 def pregunta_06():
@@ -125,7 +216,7 @@ def pregunta_06():
     ]
 
     """
-    return
+    return [(get_list_ordened_keys_set()[i], min(get_list_values_by_key()[i]), max(get_list_values_by_key()[i])) for i in range(len(get_list_ordened_keys_set()))]
 
 
 def pregunta_07():
@@ -149,7 +240,7 @@ def pregunta_07():
     ]
 
     """
-    return
+    return [(get_list_ordened_c1_set()[i], get_list_letters_by_c1_vallues()[i]) for i in range(len(get_list_ordened_c1_set()))]
 
 
 def pregunta_08():
@@ -174,7 +265,9 @@ def pregunta_08():
     ]
 
     """
-    return
+    listaSetLetras=[list(set(map(lambda x: x[0], i))) for i in get_list_filtered_by_c1_values()]
+    [list(map(lambda x: x.sort(),listaSetLetras))]
+    return [(get_list_ordened_c1_set()[i], listaSetLetras[i]) for i in range(len(get_list_ordened_c1_set()))]
 
 
 def pregunta_09():
@@ -197,7 +290,8 @@ def pregunta_09():
     }
 
     """
-    return
+    campoClave=[i[0] for i in get_list_keyValue()]
+    return {i:campoClave.count(i) for i in get_list_ordened_keys_set()}
 
 
 def pregunta_10():
@@ -218,7 +312,7 @@ def pregunta_10():
 
 
     """
-    return
+    return [(i[0], len(i[3].split(',')), len(i[4].split(','))) for i in archivo]
 
 
 def pregunta_11():
@@ -239,7 +333,7 @@ def pregunta_11():
 
 
     """
-    return
+    return {get_list_letters_c_3_set()[i]: sum(get_list_c1_by_letter_c3()[i]) for i in range(len(get_list_letters_c_3_set()))}
 
 
 def pregunta_12():
@@ -257,4 +351,6 @@ def pregunta_12():
     }
 
     """
-    return
+    return {get_list_ordened_letters_set()[i]: sum(get_list_c4_vales_by_letter()[i]) for i in range(len(get_list_ordened_letters_set()))}
+
+
